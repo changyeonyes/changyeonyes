@@ -3,7 +3,7 @@ import { writeFile } from "fs/promises";
 
 class Purchase {
   async purchaseProducts(products, retryCount = 0) {
-    const MAX_RETRIES = 1; 
+    const MAX_RETRIES = 1; // 테스트 환경에서 재시도 횟수 제한
 
     try {
       const userInput = await Console.readLineAsync(
@@ -21,7 +21,7 @@ class Purchase {
         if (product) {
           if (item.quantity > product.quantity) {
             throw new Error(
-              `재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.`
+              `${item.name}의 재고가 부족합니다. 현재 재고: ${product.quantity}`
             );
           } else {
             product.quantity -= item.quantity;
@@ -47,11 +47,10 @@ class Purchase {
     } catch (error) {
       Console.print(`[ERROR] ${error.message}`);
       if (retryCount < MAX_RETRIES) {
-        await this.purchaseProducts(products, retryCount + 1); 
+        await this.purchaseProducts(products, retryCount + 1); // 재귀 호출 제한
       }
     }
   }
 }
 
 export default Purchase;
-

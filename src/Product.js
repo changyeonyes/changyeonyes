@@ -10,10 +10,10 @@ class Product {
         `- ${product.name} ${formattedPrice}원 ${product.quantity} ${product.promotion}`
       );
     });
-    return products;
+    return products; // 제품 데이터를 반환
   }
 
-  async loadProducts() {xa
+  async loadProducts() {
     const data = await readFile("./public/products.md", "utf-8");
     const lines = data.trim().split("\n");
     const [header, ...rows] = lines;
@@ -33,4 +33,3 @@ class Product {
 }
 
 export default Product;
-
